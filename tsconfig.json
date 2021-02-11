@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "target": "ESNext",
+
+    "outDir": "./dist",
+    "baseUrl": "./",
+
+    "sourceMap": true,
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+  
+    "allowSyntheticDefaultImports": true,
+    "incremental": true
+  }
+}
