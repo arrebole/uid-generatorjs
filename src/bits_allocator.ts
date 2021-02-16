@@ -61,8 +61,8 @@ export class BitsAllocator {
      * @return
      */
     public allocate(deltaSeconds: number, workerId: number, sequence: number) {
-        const totalBitly = (n: bigint) => BigInt.asIntN(BitsAllocator.TOTAL_BITS, n)
-        return(
+        const totalBitly = (n: bigint) => BigInt.asIntN(BitsAllocator.TOTAL_BITS, n);
+        return (
             totalBitly(totalBitly(BigInt(deltaSeconds)) << BigInt(this.timestampShift)) |
             totalBitly(totalBitly(BigInt(workerId)) << BigInt(this.workerIdShift)) |
             totalBitly(BigInt(sequence))

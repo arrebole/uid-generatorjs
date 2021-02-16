@@ -15,7 +15,9 @@ export class WorkerNodeEntity {
     /**
      * Type of CONTAINER: HostName, ACTUAL : IP.
      */
-    @Column()
+    @Column({
+        name: 'host_name',
+    })
     public hostName: string;
 
     /**
@@ -34,7 +36,7 @@ export class WorkerNodeEntity {
      * Worker launch date, default now
      */
     @Column({
-        name: 'launch_date'
+        name: 'launch_date',
     })
     public launchDate: Date = new Date();
 
