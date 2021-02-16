@@ -36,22 +36,4 @@ export class NetUtils {
         }
         throw new Error('No validated local address!');
     }
-
-    /**
-     * Retrieve local address
-     *
-     * @return the string local address
-     */
-    public static getLocalAddress() {
-        const result: string[] = [];
-
-        const nets = os.networkInterfaces();
-        for (const name of Reflect.ownKeys(nets)) {
-            // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
-            result.push(
-                ...nets[name as string].filter((v) => v.family === 'IPv4' && !v.internal).map((u) => u.address),
-            );
-        }
-        return result;
-    }
 }
