@@ -38,6 +38,9 @@ createUIDGenerator({
         type: 'mysql',
         host: '127.0.0.1',
         port: 3306,
+        username: 'root',
+        password: 'password',
+        database: 'uid_generator',
     },
 }).then(uidGenerator => {
     // Generate UID
