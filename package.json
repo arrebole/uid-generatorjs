@@ -1,11 +1,12 @@
 {
   "name": "uid-generatorjs",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "分布式主键生成的一个 `nodejs` 实现方案。参考 [baidu/uid-generator](https://github.com/baidu/uid-generator)",
-  "main": "dist/impl/index",
+  "main": "dist/impl/index.js",
   "directories": {
     "doc": "docs"
   },
+  "files": [ "dist", "docs", "src" ],
   "scripts": {
     "build": "tsc",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
