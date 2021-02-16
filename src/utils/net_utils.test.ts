@@ -2,7 +2,7 @@ import { NetUtils } from './net_utils';
 
 describe('NetUtils', () => {
     test('getLocalAddress', () => {
-        expect(NetUtils.getLocalAddress()).toBeTruthy();
+        expect(NetUtils.localAddress).toBeTruthy();
     });
 
     test('getLocalInetAddress', () => {
