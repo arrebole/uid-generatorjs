@@ -24,7 +24,7 @@ CREATE TABLE `worker_nodes`(
 ) COMMENT='DB WorkerID Assigner for UID Generator',ENGINE = INNODB;
 ```
 
-使用
+使用 mysql 作为存储 workerNodeId
 ```javascript
 const { createUIDGenerator } = require('uid-generatorjs');
 

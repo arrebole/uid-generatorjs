@@ -6,12 +6,14 @@ createUIDGenerator({
     seqBits: 12,         // 序列号位数
     epoch: '2021-02-05',  // 时间的起始
     workerNodeOptions: {
-        strategy: 'mysql',
-        host: '10.0.5.58',
-        port: 3306,
-        username: 'root',
-        password: 'password',
-        database: 'uid_generator'
+        strategy: 'static',
+        workerNodeId: 1,
+        // strategy: 'mysql',
+        // host: '10.0.5.58',
+        // port: 3306,
+        // username: 'root',
+        // password: 'password',
+        // database: 'uid_generator'
     },
 }).then(uidGenerator => {
     const SIZE = 100;

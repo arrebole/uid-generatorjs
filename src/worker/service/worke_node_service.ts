@@ -25,25 +25,14 @@ export class MysqlWorkerNodeService implements WorkerNodeDAO {
             });
         })
     }
+}
 
-    getWorkerNodeByHostPort(host: string, port: string): Promise<WorkerNodeEntity> {
-        return new Promise((resolve, reject) =>{
-            this.connection.execute(`
-                SELECT 
-                    id as id,
-                    hostname as hostname,
-                    type as type,
-                    port as port,
-                    launch_date as lanchDate
-                from 
-                    worker_nodes WHERE host = ? AND port = ?
-            `, 
-            [ host, port ], 
-            (error, result: any[]) => {
-                if (error) return reject(error);
-                if (result.length <= 0) resolve(null);
-                return resolve(result[0]);
-            });
-        })
+export class StaticWorkerNodeService implements WorkerNodeDAO {
+
+    constructor(private readonly workerNodeId: number) {}
+
+    addWorkerNode(workerNodeEntity: WorkerNodeEntity): Promise<WorkerNodeEntity> {
+        workerNodeEntity.id = this.workerNodeId;
+        return Promise.resolve(workerNodeEntity);
     }
 }

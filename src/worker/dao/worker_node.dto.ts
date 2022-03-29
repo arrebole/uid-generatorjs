@@ -13,7 +13,7 @@ export interface WorkerNodeDAO {
      * @param port
      * @return
      */
-    getWorkerNodeByHostPort(host: string, port: string): Promise<WorkerNodeEntity>
+    // getWorkerNodeByHostPort(host: string, port: string): Promise<WorkerNodeEntity>
 
     /**
      * Add {@link WorkerNodeEntity}

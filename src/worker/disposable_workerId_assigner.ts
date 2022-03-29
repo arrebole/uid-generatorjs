@@ -46,7 +46,6 @@ export class DisposableWorkerIdAssigner implements WorkerIdAssigner {
             workerNodeEntity.hostname = NetUtils.localAddress;
             workerNodeEntity.port = Date.now() + '-' + Math.ceil(Math.random() * 100000);
         }
-
         return workerNodeEntity;
     }
 }

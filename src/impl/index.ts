@@ -1,5 +1,5 @@
 import { DefaultUidGenerator } from './default_uid_generator';
-import { MysqlWorkerNodeService } from '../worker/service/worke_node_service';
+import { MysqlWorkerNodeService, StaticWorkerNodeService } from '../worker/service/worke_node_service';
 import { DisposableWorkerIdAssigner } from '../worker/disposable_workerId_assigner';
 import { WorkerNodeDAO } from '../worker/dao/worker_node.dto';
 import { ConnectionOptions } from 'mysql2';
@@ -10,11 +10,16 @@ interface CreateUIDGeneratorOptions {
     workerBits: number;
     seqBits: number;
     epoch: string;
-    workerNodeOptions: MysqlWorkerNodeOptions;
+    workerNodeOptions: MysqlWorkerNodeOptions | StaticWorkerNodeOptions;
 }
 
 interface MysqlWorkerNodeOptions extends ConnectionOptions {
     strategy: 'mysql'
+}
+
+interface StaticWorkerNodeOptions {
+    strategy: 'static',
+    workerNodeId: number,
 }
 
 export async function createUIDGenerator(options: CreateUIDGeneratorOptions): Promise<UidGenerator> {
@@ -27,6 +32,9 @@ export async function createUIDGenerator(options: CreateUIDGeneratorOptions): Pr
             const { strategy, ...connectOptions } = options.workerNodeOptions;
             workNodeSerevice = new MysqlWorkerNodeService(connectOptions);
             break
+        case 'static':
+            workNodeSerevice = new StaticWorkerNodeService(options.workerNodeOptions.workerNodeId);
+            break;
         default:
             throw new Error('invalid id Generation strategy')
     }
