@@ -24,6 +24,7 @@ CREATE TABLE `worker_nodes`(
 ) COMMENT='DB WorkerID Assigner for UID Generator',ENGINE = INNODB;
 ```
 
+## 使用静态 WorkerNodeId
 ```javascript
 const {
     DefaultUidGenerator, 
@@ -47,7 +48,7 @@ async function main() {
     //     UID: 154875708945051743n,
     //     date: '2022-03-29 16:36:51',
     //     timestamp: 1648543011,
-    //     workerId: 27,
+    //     workerId: 1,
     //     sequence: 95
     // }
     console.log(uidGenerator.parseUID(id));
