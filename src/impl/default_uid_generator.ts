@@ -65,6 +65,7 @@ export class DefaultUidGenerator implements UidGenerator {
         console.info(
             `[${DefaultUidGenerator.name}] Initialized bits(1, ${this.timeBits}, ${this.workerBits}, ${this.seqBits}) for workerID: ${this.workerId}`,
         );
+        return this;
     }
 
     public getUID() {
@@ -89,7 +90,6 @@ export class DefaultUidGenerator implements UidGenerator {
             const refusedSeconds = this.lastSecond - currentSecond;
             throw new UidGenerateException('Clock moved backwards. Refusing for %d seconds', refusedSeconds);
         }
-
         // At the same second, increase sequence
         if (currentSecond == this.lastSecond) {
             this.sequence = (this.sequence + 1) & this.bitsAllocator.getMaxSequence();

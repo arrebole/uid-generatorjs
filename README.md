@@ -24,37 +24,25 @@ CREATE TABLE `worker_nodes`(
 ) COMMENT='DB WorkerID Assigner for UID Generator',ENGINE = INNODB;
 ```
 
-使用 mysql 作为存储 workerNodeId
 ```javascript
-const { createUIDGenerator } = require('uid-generatorjs');
+const {
+    DefaultUidGenerator, 
+    StaticWorkerNodeService, 
+    DisposableWorkerIdAssigner,
+} = require('uid-generatorjs');
 
-createUIDGenerator({
-    // 时间位数
-    timeBits: 31,       
+async function main() {
+    const uidGenerator = await new DefaultUidGenerator()
+        .setEpochStr('2021-03-29')
+        .setSeqBits(12)
+        .setTimeBits(31)
+        .setWorkerBits(20)
+        .setWorkerIdAssigner(new DisposableWorkerIdAssigner(new StaticWorkerNodeService(1)))
+        .afterPropertiesSet();
 
-    // 工作节点编号
-    workerBits: 23,     
-
-    // 序列号位数
-    seqBits: 9,         
-
-    // 时间的起始
-    epoch: '2021-02-05',  
-
-    // 工作节点生成策略
-    workerNodeOptions: { 
-        strategy: 'mysql',
-        host: '127.0.0.1',
-        port: 3306,
-        user: 'root',
-        password: 'password',
-        database: 'database',
-    },
-}).then(uidGenerator => {
     // Generate UID
     // 154875708945051743n
-    const uid = uidGenerator.createUID();
-
+    const id = uidGenerator.getUID();
     // {
     //     UID: 154875708945051743n,
     //     date: '2022-03-29 16:36:51',
@@ -62,6 +50,6 @@ createUIDGenerator({
     //     workerId: 27,
     //     sequence: 95
     // }
-    uidGenerator.parseUID(uid);
-});
+    console.log(uidGenerator.parseUID(id));
+}
 ```

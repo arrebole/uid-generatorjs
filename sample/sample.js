@@ -1,21 +1,19 @@
-const { createUIDGenerator } = require('../dist/impl/index');
+const { 
+    DefaultUidGenerator, 
+    StaticWorkerNodeService, 
+    DisposableWorkerIdAssigner,
+} = require('../dist');
 
-createUIDGenerator({
-    timeBits: 31,       // 时间位数
-    workerBits: 20,     // 工作节点编号
-    seqBits: 12,         // 序列号位数
-    epoch: '2021-02-05',  // 时间的起始
-    workerNodeOptions: {
-        strategy: 'static',
-        workerNodeId: 1,
-        // strategy: 'mysql',
-        // host: '10.0.5.58',
-        // port: 3306,
-        // username: 'root',
-        // password: 'password',
-        // database: 'uid_generator'
-    },
-}).then(uidGenerator => {
+
+async function main(){
+    const uidGenerator = await new DefaultUidGenerator()
+        .setEpochStr('2021-03-29')
+        .setSeqBits(12)
+        .setTimeBits(31)
+        .setWorkerBits(20)
+        .setWorkerIdAssigner(new DisposableWorkerIdAssigner(new StaticWorkerNodeService(1)))
+        .afterPropertiesSet();
+
     const SIZE = 100;
     const queue = new Set();
 
@@ -30,5 +28,7 @@ createUIDGenerator({
     console.timeEnd();
     if (queue.size != SIZE) {
         console.error('重复id');
-    }
-});
+    } 
+}
+
+main();
