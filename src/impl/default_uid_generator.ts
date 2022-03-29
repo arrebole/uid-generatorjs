@@ -136,24 +136,28 @@ export class DefaultUidGenerator implements UidGenerator {
      */
     public setWorkerIdAssigner(workerIdAssigner: WorkerIdAssigner) {
         this.workerIdAssigner = workerIdAssigner;
+        return this;
     }
 
     public setTimeBits(timeBits: number) {
         if (timeBits > 0) {
             this.timeBits = timeBits;
         }
+        return this;
     }
 
     public setWorkerBits(workerBits: number) {
         if (workerBits > 0) {
             this.workerBits = workerBits;
         }
+        return this;
     }
 
     public setSeqBits(seqBits: number) {
         if (seqBits > 0) {
             this.seqBits = seqBits;
         }
+        return this;
     }
 
     public setEpochStr(epochStr: string) {
@@ -161,5 +165,6 @@ export class DefaultUidGenerator implements UidGenerator {
             this.epochStr = epochStr;
             this.epochSeconds = Math.ceil(DateUtils.parseDate(epochStr).getTime() / 1000);
         }
+        return this;
     }
 }

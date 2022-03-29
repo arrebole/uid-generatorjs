@@ -5,9 +5,9 @@ createUIDGenerator({
     workerBits: 20,     // 工作节点编号
     seqBits: 12,         // 序列号位数
     epoch: '2021-02-05',  // 时间的起始
-    store: {
-        type: 'mysql',
-        host: '127.0.0.1',
+    workerNodeOptions: {
+        strategy: 'mysql',
+        host: '10.0.5.58',
         port: 3306,
         username: 'root',
         password: 'password',
@@ -20,7 +20,9 @@ createUIDGenerator({
     console.time()
     for (let i = 0; i< SIZE; i++) {
         // Generate UID
-        queue.add(uidGenerator.getUID())
+        const id = uidGenerator.getUID();
+        console.log(id);
+        queue.add(id);
     }
     console.timeEnd();
     if (queue.size != SIZE) {

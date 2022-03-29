@@ -6,9 +6,13 @@
   "directories": {
     "doc": "docs"
   },
-  "files": [ "dist", "docs", "src" ],
+  "files": [
+    "dist",
+    "docs",
+    "src"
+  ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --project tsconfig.build.json",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest"
   },
@@ -17,7 +21,6 @@
   "license": "ISC",
   "dependencies": {
     "dayjs": "^1.11.0",
-    "typeorm": "^0.2.31",
     "mysql2": "^2.3.3"
   },
   "devDependencies": {

@@ -39,11 +39,11 @@ export class DisposableWorkerIdAssigner implements WorkerIdAssigner {
         const workerNodeEntity = new WorkerNodeEntity();
         if (DockerUtils.isDocker()) {
             workerNodeEntity.type = WorkerNodeType.CONTAINER;
-            workerNodeEntity.hostName = DockerUtils.getDockerHost();
+            workerNodeEntity.hostname = DockerUtils.getDockerHost();
             workerNodeEntity.port = DockerUtils.getDockerPort();
         } else {
             workerNodeEntity.type = WorkerNodeType.ACTUAL;
-            workerNodeEntity.hostName = NetUtils.localAddress;
+            workerNodeEntity.hostname = NetUtils.localAddress;
             workerNodeEntity.port = Date.now() + '-' + Math.ceil(Math.random() * 100000);
         }
 

@@ -18,8 +18,7 @@ CREATE TABLE worker_nodes(
     host_name VARCHAR(64) NOT NULL COMMENT 'host name',
     port VARCHAR(64) NOT NULL COMMENT 'port',
     type INT NOT NULL COMMENT 'node type: ACTUAL or CONTAINER',
-    launch_date DATE NOT NULL COMMENT 'launch date',
-    modified TIMESTAMP NULL COMMENT 'modified time',
+    launch_at DATE NOT NULL COMMENT 'launch date',
     created TIMESTAMP NOT NULL default CURRENT_TIMESTAMP COMMENT 'created time',
     PRIMARY KEY(ID)
 ) COMMENT='DB WorkerID Assigner for UID Generator',ENGINE = INNODB;
@@ -30,14 +29,26 @@ CREATE TABLE worker_nodes(
 const { createUIDGenerator } = require('uid-generatorjs');
 
 createUIDGenerator({
-    timeBits: 31,       // 时间位数
-    workerBits: 23,     // 工作节点编号
-    seqBits: 9,         // 序列号位数
-    epoch: '2021-02-05',  // 时间的起始
-    store: {
-        type: 'mysql',
+    // 时间位数
+    timeBits: 31,       
+
+    // 工作节点编号
+    workerBits: 23,     
+
+    // 序列号位数
+    seqBits: 9,         
+
+    // 时间的起始
+    epoch: '2021-02-05',  
+
+    // 工作节点生成策略
+    workerNodeOptions: { 
+        strategy: 'mysql',
         host: '127.0.0.1',
         port: 3306,
+        user: 'root',
+        password: 'password',
+        database: 'database',
     },
 }).then(uidGenerator => {
     // Generate UID

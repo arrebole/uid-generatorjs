@@ -1,30 +1,39 @@
 import { DefaultUidGenerator } from './default_uid_generator';
-import { WorkerNodeService } from '../worker/worke_node_service';
+import { MysqlWorkerNodeService } from '../worker/service/worke_node_service';
 import { DisposableWorkerIdAssigner } from '../worker/disposable_workerId_assigner';
-import { ConnectionOptions } from 'typeorm';
+import { WorkerNodeDAO } from '../worker/dao/worker_node.dto';
+import { ConnectionOptions } from 'mysql2';
 
-interface createUIDGeneratorOptions {
+interface CreateUIDGeneratorOptions {
     timeBits: number;
     workerBits: number;
     seqBits: number;
     epoch: string;
-    store: ConnectionOptions;
+    workerNodeOptions: MysqlWorkerNodeOptions;
 }
 
-export async function createUIDGenerator(options: createUIDGeneratorOptions) {
-    const uidGenerator = new DefaultUidGenerator();
+interface MysqlWorkerNodeOptions extends ConnectionOptions {
+    strategy: 'mysql'
+}
 
-    // set config
-    uidGenerator.setEpochStr(options.epoch);
-    uidGenerator.setSeqBits(options.seqBits);
-    uidGenerator.setTimeBits(options.timeBits);
-    uidGenerator.setWorkerBits(options.workerBits);
+export async function createUIDGenerator(options: CreateUIDGeneratorOptions) {
 
-    // db connect
-    const workNodeSerevice = new WorkerNodeService();
-    await workNodeSerevice.connect(options.store);
+    // select workernode id Generation strategy
+    let workNodeSerevice: WorkerNodeDAO;
+    switch(options.workerNodeOptions.strategy){
+        case 'mysql':
+            workNodeSerevice = new MysqlWorkerNodeService(options.workerNodeOptions);
+            break
+        default:
+            throw new Error('invalid id Generation strategy')
+    }
 
-    uidGenerator.setWorkerIdAssigner(new DisposableWorkerIdAssigner(workNodeSerevice));
+    const uidGenerator = new DefaultUidGenerator()
+        .setEpochStr(options.epoch)
+        .setSeqBits(options.seqBits)
+        .setTimeBits(options.timeBits)
+        .setWorkerBits(options.workerBits)
+        .setWorkerIdAssigner(new DisposableWorkerIdAssigner(workNodeSerevice));
     await uidGenerator.afterPropertiesSet();
 
     return uidGenerator;
