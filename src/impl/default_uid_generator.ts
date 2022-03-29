@@ -1,6 +1,5 @@
-import { UidGenerator } from '../uid_generator';
+import { ParseUIDResult, UidGenerator } from '../uid_generator';
 import { BitsAllocator } from '../bits_allocator';
-
 import { WorkerIdAssigner } from '../worker/workerId_assigner';
 import { UidGenerateException } from '../exception/uid_generate_exception';
 import { DateUtils } from '../utils/date_utils';
@@ -106,7 +105,7 @@ export class DefaultUidGenerator implements UidGenerator {
         this.lastSecond = currentSecond;
 
         // Allocate bits for UID
-        return this.bitsAllocator.allocate(currentSecond - this.epochSeconds, this.workerId, this.sequence).toString();
+        return this.bitsAllocator.allocate(currentSecond - this.epochSeconds, this.workerId, this.sequence);
     }
 
     /**
@@ -129,6 +128,35 @@ export class DefaultUidGenerator implements UidGenerator {
             throw new UidGenerateException('Timestamp bits is exhausted. Refusing UID generate. Now: ' + currentSecond);
         }
         return currentSecond;
+    }
+
+    public parseUID(uid: bigint): ParseUIDResult {
+        const totalBits = BitsAllocator.TOTAL_BITS;
+        const signBits = this.bitsAllocator.getSignBits();
+        const timestampBits = this.bitsAllocator.getTimestampBits();
+        const workerIdBits = this.bitsAllocator.getWorkerIdBits();
+        const sequenceBits = this.bitsAllocator.getSequenceBits();
+
+        let shift = BigInt(totalBits - sequenceBits);
+        const sequence = BigInt.asIntN(totalBits, BigInt.asIntN(totalBits, (uid << shift)) >> shift);
+
+        shift = BigInt(timestampBits + signBits);
+        const workerId = BigInt.asIntN(totalBits, BigInt.asIntN(totalBits, (uid << shift)) >> BigInt(totalBits - workerIdBits));
+
+        shift = BigInt(workerIdBits + sequenceBits);
+        const deltaSeconds = BigInt.asIntN(totalBits, uid >> shift);
+
+        const thatTimestamp = this.epochSeconds + Number(deltaSeconds);
+        const thatTimeStr = DateUtils.formatByDateTimePattern(new Date(thatTimestamp * 1000));
+
+        // format as string
+        return {
+            UID: uid,
+            date: thatTimeStr,
+            timestamp: thatTimestamp,
+            workerId: Number(workerId),
+            sequence: Number(sequence),
+        };
     }
 
     /**

@@ -1,10 +1,19 @@
+
+export interface ParseUIDResult {
+    UID: bigint,
+    date: string,
+    timestamp: number,
+    workerId: number,
+    sequence: number,
+}
+
 export interface UidGenerator {
     /**
      * Get a unique ID
      *
      * @return UID
      */
-    getUID(): string;
+    getUID(): bigint;
 
     /**
      * Parse the UID into elements which are used to generate the UID.
@@ -13,5 +22,5 @@ export interface UidGenerator {
      * @param uid
      * @return Parsed info
      */
-    // parseUID(uid: string): string;
+    parseUID(uid: bigint): ParseUIDResult;
 }

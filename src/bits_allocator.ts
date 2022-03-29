@@ -66,7 +66,7 @@ export class BitsAllocator {
             totalBitly(totalBitly(BigInt(deltaSeconds)) << BigInt(this.timestampShift)) |
             totalBitly(totalBitly(BigInt(workerId)) << BigInt(this.workerIdShift)) |
             totalBitly(BigInt(sequence))
-        ).toString();
+        );
     }
 
     public getMaxWorkerId() {
@@ -79,5 +79,28 @@ export class BitsAllocator {
 
     public getMaxDeltaSeconds() {
         return this.maxDeltaSeconds;
+    }
+
+    public getTimestampShift() {
+        return this.timestampShift;
+    }
+
+    public getWorkerIdShift() {
+        return this.workerIdShift;
+    }
+
+    public getSignBits(){
+        return this.signBits;
+    }
+
+    public getTimestampBits(){
+        return this.timestampBits;
+    }
+
+    public getWorkerIdBits() {
+        return this.workerIdBits;
+    }
+    public getSequenceBits() {
+        return this.sequenceBits;
     }
 }

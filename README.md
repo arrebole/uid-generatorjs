@@ -52,6 +52,16 @@ createUIDGenerator({
     },
 }).then(uidGenerator => {
     // Generate UID
+    // 154875708945051743n
     const uid = uidGenerator.createUID();
+
+    // {
+    //     UID: 154875708945051743n,
+    //     date: '2022-03-29 16:36:51',
+    //     timestamp: 1648543011,
+    //     workerId: 27,
+    //     sequence: 95
+    // }
+    uidGenerator.parseUID(uid);
 });
 ```

@@ -14,7 +14,7 @@ createUIDGenerator({
         database: 'uid_generator'
     },
 }).then(uidGenerator => {
-    const SIZE = 10000;
+    const SIZE = 100;
     const queue = new Set();
 
     console.time()
@@ -22,6 +22,7 @@ createUIDGenerator({
         // Generate UID
         const id = uidGenerator.getUID();
         console.log(id);
+        console.log(uidGenerator.parseUID(id));
         queue.add(id);
     }
     console.timeEnd();

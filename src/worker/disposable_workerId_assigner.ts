@@ -27,7 +27,7 @@ export class DisposableWorkerIdAssigner implements WorkerIdAssigner {
     public async assignWorkerId() {
         // add worker node for new (ignore the same IP + PORT)
         const workerNodeEntity = await this.workerNodeDAO.addWorkerNode(this.buildWorkerNode());
-        console.info(`[${DisposableWorkerIdAssigner.name}] Add worker node: ${workerNodeEntity}`);
+        console.info(`[${DisposableWorkerIdAssigner.name}] Add worker node: ${workerNodeEntity.id}`);
 
         return workerNodeEntity.id;
     }
