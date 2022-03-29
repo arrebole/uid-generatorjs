@@ -27,7 +27,7 @@ export class WorkerNodeEntity {
     /**
      * Worker launch date, default now
      */
-    public launchAt: Date = new Date();
+    public launchDate: Date = new Date();
 
     /**
      * table name

@@ -13,13 +13,13 @@ npm install uid-generatorjs mysql2
 ## Usage
 创建`mysql`数据库表
 ```sql
-CREATE TABLE worker_nodes(
-    id BIGINT NOT NULL AUTO_INCREMENT COMMENT 'auto increment id',
-    host_name VARCHAR(64) NOT NULL COMMENT 'host name',
-    port VARCHAR(64) NOT NULL COMMENT 'port',
-    type INT NOT NULL COMMENT 'node type: ACTUAL or CONTAINER',
-    launch_at DATE NOT NULL COMMENT 'launch date',
-    created TIMESTAMP NOT NULL default CURRENT_TIMESTAMP COMMENT 'created time',
+CREATE TABLE `worker_nodes`(
+    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'auto increment id',
+    `host_name` VARCHAR(64) NOT NULL COMMENT 'host name',
+    `port` VARCHAR(64) NOT NULL COMMENT 'port',
+    `type` INT NOT NULL COMMENT 'node type: ACTUAL or CONTAINER',
+    `launch_date` DATE NOT NULL COMMENT 'launch date',
+    `created_at` TIMESTAMP NOT NULL default CURRENT_TIMESTAMP COMMENT 'created time',
     PRIMARY KEY(ID)
 ) COMMENT='DB WorkerID Assigner for UID Generator',ENGINE = INNODB;
 ```

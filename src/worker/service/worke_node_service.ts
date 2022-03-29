@@ -11,12 +11,12 @@ export class MysqlWorkerNodeService implements WorkerNodeDAO {
 
     addWorkerNode(workerNodeEntity: WorkerNodeEntity): Promise<WorkerNodeEntity> {
         return new Promise((resolve, reject) =>{
-            this.connection.execute(`INSERT INTO worker_nodes (hostname,port,type,launch_at) VALUES (?,?,?,?)`, 
+            this.connection.execute(`INSERT INTO worker_nodes (hostname,port,type,launch_date) VALUES (?,?,?,?)`, 
             [
                 workerNodeEntity.hostname,
                 workerNodeEntity.port,
                 workerNodeEntity.type,
-                workerNodeEntity.launchAt,
+                workerNodeEntity.launchDate,
             ], 
             (error, result: ResultSetHeader) => {
                 if (error) return reject(error);
@@ -34,7 +34,7 @@ export class MysqlWorkerNodeService implements WorkerNodeDAO {
                     hostname as hostname,
                     type as type,
                     port as port,
-                    launch_at as lanchAt
+                    launch_date as lanchDate
                 from 
                     worker_nodes WHERE host = ? AND port = ?
             `, 
