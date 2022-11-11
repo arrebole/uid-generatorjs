@@ -1,6 +1,6 @@
 {
   "name": "uid-generatorjs",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "分布式主键生成的一个 `nodejs` 实现方案。参考 [baidu/uid-generator](https://github.com/baidu/uid-generator)",
   "main": "dist/index.js",
   "directories": {
