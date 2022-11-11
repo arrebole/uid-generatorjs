@@ -29,7 +29,7 @@ export class NetUtils {
             }
             for (const net of nets[name as string]) {
                 // ignores all invalidated addresses
-                if (!net.internal && net.family === 'IPv4') {
+                if (!net.internal && ['IPv4', 4].includes(net.family)) {
                     return net.address;
                 }
             }
